@@ -1,9 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
+import { RequestInfo, RequestInit } from "node-fetch";
 
-if(process.env.ENV !== "production") {
-  require("dotenv").config();
-}
+const fetch = (url: RequestInfo, init?: RequestInit) =>  import("node-fetch").then(({ default: fetch }) => fetch(url, init));
 
 const app = express();
 const router = express.Router();
@@ -15,8 +14,6 @@ app.use(bodyParser.text({ type: "text/html" }));
 
 router.post("/webhook", async (req, res) => {
   const data = req.body;
-
-  console.log(data);
 
   const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
