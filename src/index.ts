@@ -9,6 +9,19 @@ app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 
+/**
+ * @description - This is a function for capitalize
+ * @param {string} str - This is a string
+ * @returns {string} - This is a string
+ * @example
+ * capitalize('hello') // returns 'Hello'
+ * capitalize('hello world') // returns 'Hello World'
+ */
+
+function capitalize(str: string) {
+  return str.toLowerCase().split(" ").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
+}
+
 router.post("/webhook", async (req, res) => {
   const data = req.body;
 
@@ -41,7 +54,7 @@ router.post("/webhook", async (req, res) => {
     fields: [
       {
         name: "Status",
-        value: `${data.status}`,
+        value: `${capitalize(data.status)}`,
         inline: true
       },
       {
