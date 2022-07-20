@@ -1,8 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { RequestInfo, RequestInit } from "node-fetch";
-
-const fetch = (url: RequestInfo, init?: RequestInit) =>  import("node-fetch").then(({ default: fetch }) => fetch(url, init));
+import axios from "axios";
 
 const app = express();
 const router = express.Router();
@@ -71,13 +69,9 @@ router.post("/webhook", async (req, res) => {
     avatar_url: data.deployment.creator.avatar,
   }
 
-  await fetch(DISCORD_WEBHOOK_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  }).then((res: { json: () => object; }) => console.log(res.json()))
+  await axios.post(DISCORD_WEBHOOK_URL, payload).catch(err => {
+    console.log(err);
+  });
 
   res.status(200).send("OK");
 
