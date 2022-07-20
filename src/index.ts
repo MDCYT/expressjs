@@ -16,7 +16,7 @@ app.use(bodyParser.text({ type: "text/html" }));
 app.post("/webhook", async (req, res) => {
   const data = req.body;
 
-  console.log({data})
+  console.log(data)
 
   const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
@@ -69,7 +69,9 @@ app.post("/webhook", async (req, res) => {
     embeds: [embed]
   }
 
-  await axios.post(DISCORD_WEBHOOK_URL, payload);
+  await axios.post(DISCORD_WEBHOOK_URL, payload).catch(err => {
+    console.log(err)
+  })
 
   res.status(200).send("OK");
 
