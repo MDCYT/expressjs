@@ -1,6 +1,5 @@
 import bodyParser from "body-parser";
 import express from "express";
-const fetch = require("node-fetch")
 
 if(process.env.ENV !== "production") {
   require("dotenv").config();
