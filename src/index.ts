@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw({ type: "application/vnd.custom-type" }));
 app.use(bodyParser.text({ type: "text/html" }));
 
-app.post("/weebhook", async (req, res) => {
+app.post("/webhook", async (req, res) => {
   const data = req.body;
 
   console.log({data})
