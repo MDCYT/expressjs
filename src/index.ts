@@ -13,8 +13,6 @@ app.use(bodyParser.text({ type: "text/html" }));
 router.post("/webhook", async (req, res) => {
   const data = req.body;
 
-  console.log(data);
-
   const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
   if(!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "") res.status(500).send("No Discord Webhook URL");
@@ -40,8 +38,8 @@ router.post("/webhook", async (req, res) => {
   }
 
   let embed = <embed>{
-    title: `${data.name}`,
-    description: `\`\`\`json\n${JSON.stringify(data, null, 2)}\`\`\``,
+    title: `${data.project.name}`,
+    description: `${data.project.description}`,
     fields: [
       {
         name: "Status",
