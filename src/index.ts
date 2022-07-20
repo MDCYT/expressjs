@@ -89,7 +89,7 @@ router.post("/webhook", async (req, res) => {
 })
 
 router.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.redirect("https://github.com/MDCYT/railway-to-discord");
 })
 
 app.use("/", router);
