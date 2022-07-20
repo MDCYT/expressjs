@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import express from "express";
 import axios from "axios";
 
@@ -6,19 +5,18 @@ const app = express();
 const router = express.Router();
 const port = process.env.PORT || 3333;
 
-app.use(bodyParser.json());
-app.use(bodyParser.raw({ type: "application/vnd.custom-type" }));
-app.use(bodyParser.text({ type: "text/html" }));
+app.use(express.json());
+app.use(express.raw({ type: "application/vnd.custom-type" }));
+app.use(express.text({ type: "text/html" }));
 
 router.post("/webhook", async (req, res) => {
   const data = req.body;
 
   const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
-  if(!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "") res.status(500).send("No Discord Webhook URL");
+  if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "") res.status(500).send("No Discord Webhook URL");
 
-  if(!data.status || !data.service) res.status(500).send("No status or service");
-
+  if (!data.status || !data.service) res.status(500).send("No status or service");
 
   interface embed {
     title: string;
