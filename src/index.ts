@@ -31,6 +31,7 @@ router.post("/webhook", async (req, res) => {
     fields?: Array<{
       name: string;
       value: string;
+      inline?: boolean;
     }>;
     timestamp?: string;
     author?: {
@@ -48,10 +49,12 @@ router.post("/webhook", async (req, res) => {
       {
         name: "Status",
         value: `${data.status}`,
+        inline: true
       },
       {
         name: "Service",
         value: `${data.service.name}`,
+        inline: true
       }
     ],
     timestamp: data.timestamp,
@@ -67,7 +70,8 @@ router.post("/webhook", async (req, res) => {
   if (data.status === "CRASHED") embed = { ...embed, color: 0xff0000 };
 
   const payload = {
-    embeds: [embed]
+    embeds: [embed],
+    avatar_url: data.deployment.creator.avatar,
   }
 
   await fetch(DISCORD_WEBHOOK_URL, {
