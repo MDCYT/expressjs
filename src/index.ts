@@ -8,9 +8,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw({ type: "application/vnd.custom-type" }));
 app.use(bodyParser.text({ type: "text/html" }));
 
-app.get("/", async (req, res) => {
-  res.json({ Hello: "World" });
-});
+app.post("/weebhook", async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  res.sendStatus(200);
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
