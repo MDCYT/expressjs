@@ -79,7 +79,7 @@ router.post("/webhook", async (req, res) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(payload)
-  }).then(res => console.log(res.json()))
+  }).then((res: { json: () => object; }) => console.log(res.json()))
 
   res.status(200).send("OK");
 
