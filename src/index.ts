@@ -16,6 +16,8 @@ app.use(bodyParser.text({ type: "text/html" }));
 router.post("/webhook", async (req, res) => {
   const data = req.body;
 
+  console.log(data);
+
   const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL || "";
 
   if(!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === "") res.status(500).send("No Discord Webhook URL");
