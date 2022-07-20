@@ -1,19 +1,19 @@
 import bodyParser from "body-parser";
 import express from "express";
-import axios from "axios";
 
 if(process.env.ENV !== "production") {
   require("dotenv").config();
 }
 
 const app = express();
+const router = express.Router();
 const port = process.env.PORT || 3333;
 
 app.use(bodyParser.json());
 app.use(bodyParser.raw({ type: "application/vnd.custom-type" }));
 app.use(bodyParser.text({ type: "text/html" }));
 
-app.post("/webhook", async (req, res) => {
+router.post("/webhook", async (req, res) => {
   const data = req.body;
 
   console.log(data)
@@ -43,6 +43,7 @@ app.post("/webhook", async (req, res) => {
 
   let embed = <embed>{
     title: `${data.name}`,
+    description: `\`\`\`json\n${JSON.stringify(data, null, 2)}\`\`\``,
     fields: [
       {
         name: "Status",
@@ -69,17 +70,23 @@ app.post("/webhook", async (req, res) => {
     embeds: [embed]
   }
 
-  await axios.post(DISCORD_WEBHOOK_URL, payload).catch(err => {
-    console.log(err)
-  })
+  await fetch(DISCORD_WEBHOOK_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  }).then(res => console.log(res.json()))
 
   res.status(200).send("OK");
 
 })
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("Hello World!");
 })
+
+app.use("/", router);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
